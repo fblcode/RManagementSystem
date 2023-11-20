@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Management System</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Employee Management System</h1>
+        <hr>
+        <h2>Update Employee</h2>
+
+        <form action="#" th:action="@{/saveEmployee}" th:object="${employee}" method="POST" onsubmit="return validateForm()">
+
+            <!-- Add hidden form field to handle update -->
+            <input type="hidden" th:field="*{id}" />
+
+            <input type="text" th:field="*{firstName}" class="form-control mb-4 col-4">
+
+            <input type="text" th:field="*{lastName}" class="form-control mb-4 col-4">
+
+            <input type="text" th:field="*{email}" class="form-control mb-4 col-4">
+
+            <input type="text" th:field="*{salary}" class="form-control mb-4 col-4" id="salaryField" oninput="validateSalaryInput(this)">
+
+            <button type="submit" class="btn btn-info col-2">Update Employee</button>
+        </form>
+
+        <hr>
+
+        <a th:href="@{/}">Back to Employee List</a>
+    </div>
+
+    <script>
+        // Validate salary field input
+        function validateSalaryInput(salaryField) {
+            var numericValue = parseFloat(salaryField.value);
+            if (!salaryField.value || !/^\d*\.?\d*$/.test(salaryField.value) || numericValue < 0) {
+                salaryField.value = '0'; // Set salary to 0 if it's empty, contains non-numeric characters, or negative value
+            }
+        }
+
+        // Validate the form before submission
+		function validateForm() {
+		    var firstNameField = document.querySelector('input[name="firstName"]');
+		    var lastNameField = document.querySelector('input[name="lastName"]');
+		    var emailField = document.querySelector('input[name="email"]');
+		    var salaryField = document.getElementById('salaryField');
+		
+		    if (!firstNameField.value.trim() || !lastNameField.value.trim() || !emailField.value.trim()) {
+		        alert('Please enter all required fields.'); // Display error message if any required field is empty
+		        return false; // Prevent form submission
+		    }
+		
+		    var emailRegex = /^\S+@\S+\.\S+$/;
+		    if (!emailRegex.test(emailField.value.trim())) {
+		        alert('Please enter a valid email address.'); // Display error message if email format is invalid
+		        return false; // Prevent form submission
+		    }
+		
+		    if (!salaryField.value || parseFloat(salaryField.value) < 0) {
+		        salaryField.value = '0'; // Set salary to 0 if it's empty or negative value
+		    }
+		
+		    return true; // Allow form submission if validation passes
+		}
+
+    </script>
+</body>
+
+</html>

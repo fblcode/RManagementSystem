@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Items Management</title>
+
+<link rel="stylesheet"
+ href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+ integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+ crossorigin="anonymous">
+ 
+</head>
+<body>
+
+ <div class="container my-2">
+ <h1>Items List</h1>
+
+<div class="d-flex justify-content-between align-items-center">
+    <a th:href="@{/showNewItemForm}" class="btn btn-primary ml-2">Add Item</a>
+		<a href="/" class="btn btn-light">Employee List</a> <!-- Add navigation to Items List page -->
+   		<a href="/order" class="btn btn-light">Orders List</a> <!-- Add navigation to Orders List page -->
+    <form th:action="@{/item}" method="get" class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" name="keyword" id="keyword" th:value="${keyword}" required />
+        </div>
+        <button type="submit" class="btn btn-primary ml-2">Search</button>
+        <button type="button" class="btn btn-secondary ml-2" id="btnClear" onclick="clearSearch()">Clear</button>
+    </form>
+</div>
+   &nbsp; <!-- Add non-breaking space for spacing -->
+  <table border="1" class="table table-striped table-responsive-md">
+   <thead>
+    <tr>
+     <th>
+      <a th:href="@{'/item/page/' + ${currentPage} + '?sortField=itemName&sortDir=' + ${reverseSortDir}}">
+       Item Name</a>
+     </th>
+     <th>
+     <a th:href="@{'/item/page/' + ${currentPage} + '?sortField=itemDescription&sortDir=' + ${reverseSortDir}}">
+       Description</a>
+     </th>
+     <th>
+     <a th:href="@{'/item/page/' + ${currentPage} + '?sortField=itemPrice&sortDir=' + ${reverseSortDir}}">
+       Item Price</a>
+     </th>
+     <th> Actions </th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr th:each="item : ${listItems}">
+     <td th:text="${item.itemName}"></td>
+     <td th:text="${item.itemDescription}"></td>
+     <td th:text="${item.itemPrice}"></td>
+     <td> <a th:href="@{/showFormForUpdateItem/{id}(id=${item.itemID })}" class="btn btn-primary">Update</a>
+         <a th:href="@{/deleteItem/{id}(id=${item.itemID })}" class="btn btn-danger">Delete</a>
+     </td>
+    </tr>
+   </tbody>
+  </table>
+
+</div>
+
+<div class="container mt-3">
+  <div class="row">
+    <div class="col-sm-6">
+      <div>Total Rows: [[${totalItems}]]</div>
+    </div>
+    <div class="col-sm-6">
+      <div class="pagination justify-content-start">
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+          <a th:if="${currentPage != i}" th:href="@{'/item/page/' + ${i} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">[[${i}]]</a>
+          <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+        </span>
+        <a th:if="${currentPage < totalPages}" th:href="@{'/item/page/' + ${currentPage + 1} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Next</a>
+        <span th:unless="${currentPage < totalPages}">Next</span>
+        &nbsp; <!-- Add non-breaking space for spacing -->
+        <a th:if="${currentPage < totalPages}" th:href="@{'/item/page/' + ${totalPages} + '?sortField=' + ${sortField} + '&sortDir=' + ${sortDir}}">Last</a>
+        <span th:unless="${currentPage < totalPages}">Last</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/item}]]";
+    }
+</script>
+
+</body>
+</html>
