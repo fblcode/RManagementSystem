@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.ui.Model;
 
 import com.example.demo.service.UserService;
 import com.example.demo.web.dto.UserRegistrationDto;
@@ -32,8 +32,13 @@ public class UserRegistrationController {
 	}
 	
 	@PostMapping
-	public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto userDto) {
-		userService.save(userDto);
-		return "redirect:/registration?success";
-	}
+    public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto userDto, Model model) {
+        try {
+            userService.save(userDto);
+            return "redirect:/registration?success";
+        } catch (RuntimeException e) {
+            model.addAttribute("error", "Email is already registered. Please try another email.");
+            return "registration";
+        }
+    }
 }

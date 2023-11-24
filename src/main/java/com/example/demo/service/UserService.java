@@ -7,4 +7,5 @@ import com.example.demo.web.dto.UserRegistrationDto;
 
 public interface UserService extends UserDetailsService {
 	User save(UserRegistrationDto registrationDto);
+	public boolean isEmailAlreadyRegistered(String email);
 }

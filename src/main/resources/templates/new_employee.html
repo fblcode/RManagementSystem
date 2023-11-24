@@ -40,26 +40,31 @@
             }
         }
 
-        // Validate the form before submission
         function validateForm() {
-            var firstNameField = document.querySelector('input[name="firstName"]');
-            var lastNameField = document.querySelector('input[name="lastName"]');
-            var emailField = document.querySelector('input[name="email"]');
-            var salaryField = document.getElementById('salaryField');
+        var firstNameField = document.querySelector('input[name="firstName"]');
+        var lastNameField = document.querySelector('input[name="lastName"]');
+        var emailField = document.querySelector('input[name="email"]');
+        var salaryField = document.getElementById('salaryField');
 
-            if (!firstNameField.value.trim() || !lastNameField.value.trim() || !emailField.value.trim() || parseFloat(salaryField.value) === 0) {
-                alert('Please enter all required fields.'); // Display error message if any required field is empty or salary is 0
-                return false; // Prevent form submission
-            }
-
-            var emailRegex = /^\S+@\S+\.\S+$/;
-            if (!emailRegex.test(emailField.value.trim())) {
-                alert('Please enter a valid email address.'); // Display error message if email format is invalid
-                return false; // Prevent form submission
-            }
-
-            return true; // Allow form submission if validation passes
+        if (!firstNameField.value.trim() || !lastNameField.value.trim() || !emailField.value.trim() || parseFloat(salaryField.value) === 0) {
+            alert('Please enter all required fields and ensure salary is greater than 0.'); // Display error message if any required field is empty or salary is 0
+            return false; // Prevent form submission
         }
+
+        if (!isValidEmail(emailField.value.trim())) {
+            alert('Please enter a valid email address.'); // Display error message if email format is invalid
+            return false; // Prevent form submission
+        }
+
+        return true; // Allow form submission if validation passes
+    }
+
+    // Function to validate email format
+    function isValidEmail(email) {
+	    // Using a regular expression for email format validation
+	    var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+	    return emailRegex.test(email);
+	}
     </script>
 </body>
 
