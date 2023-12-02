@@ -73,7 +73,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Page<Order> findPaginatedOrder(Integer pageNo, Integer pageSize, String sortField, String sortDirection, String keyword) {
-        Sort sort = Sort.by(Sort.Direction.fromString(sortDirection), sortField);
+    	Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending()
+                : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         if (keyword != null) {
             return orderRepository.findByEmployeeNameContainingIgnoreCase(keyword, pageable);

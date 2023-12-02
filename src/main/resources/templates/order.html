@@ -116,15 +116,15 @@
         <thead>
         <tr>
             <th>
-                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${sortDir}}">Order
+                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Order
                     Id</a>
             </th>
             <th>
-                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=totalPrice&sortDir=' + ${sortDir}}">Total
+                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=totalPrice&sortDir=' + ${reverseSortDir}}">Total
                     Price</a>
             </th>
             <th>
-                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=employeeName&sortDir=' + ${sortDir}}">Added
+                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=employeeName&sortDir=' + ${reverseSortDir}}">Added
                     By</a>
             </th>
             <th>Actions</th>
