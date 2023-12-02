@@ -23,6 +23,9 @@ public class Item {
 	@Column(name = "item_price")
 	private Double itemPrice;
 	
+	@Column(name = "item_quantity")
+	private Integer itemQuantity;
+	
 	public Double getItemPrice() {
 		return itemPrice;
 	}
@@ -49,4 +52,13 @@ public class Item {
 	public void setItemDescription(String itemDescription) {
 		this.itemDescription = itemDescription;
 	}
+
+	public Integer getItemQuantity() {
+		return itemQuantity;
+	}
+
+	public void setItemQuantity(Integer itemQuantity) {
+		this.itemQuantity = itemQuantity;
+	}
+	
 }

@@ -25,6 +25,8 @@
 
             <input type="text" th:field="*{itemPrice}" class="form-control mb-4 col-4" id="itemPriceField" oninput="validateItemPriceInput(this)">
 
+			<input type="text" th:field="*{itemQuantity}" class="form-control mb-4 col-4" id="itemQuantityField" oninput="validateItemQuantityInput(this)">
+
             <button type="submit" class="btn btn-info col-2">Update Item</button>
         </form>
 
@@ -39,6 +41,13 @@
             var numericValue = parseFloat(itemPriceField.value);
             if (!itemPriceField.value || !/^\d*\.?\d*$/.test(itemPriceField.value) || numericValue < 0) {
                 itemPriceField.value = '0'; // Set itemPrice to 0 if it's empty, contains non-numeric characters, or negative value
+            }
+        }
+        
+        function validateItemQuantityInput(itemQuantityField) {
+            var numericValue = parseFloat(itemQuantityField.value);
+            if (!itemQuantityField.value || !/^\d*\.?\d*$/.test(itemQuantityField.value) || numericValue < 0) {
+                itemQuantityField.value = '0'; // Set price to 0 if it's empty, contains non-numeric characters, or negative value
             }
         }
 

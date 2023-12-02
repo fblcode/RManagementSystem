@@ -68,7 +68,16 @@ public class OrderController {
             String itemId = entry.getKey();
             int quantity = entry.getValue();
             Item item = itemService.getItemById(Integer.parseInt(itemId));
-            totalPrice += item.getItemPrice() * quantity;
+
+            if (item != null && item.getItemQuantity() != null) {
+                totalPrice += item.getItemPrice() * quantity;
+                
+                int updatedQuantity = item.getItemQuantity() - quantity;
+                item.setItemQuantity(updatedQuantity);
+                itemService.saveItem(item);
+            } else {
+             
+            }
         }
         order.setTotalPrice(totalPrice);
 
@@ -76,6 +85,7 @@ public class OrderController {
         orderService.saveOrder(order);
         return "redirect:/order";
     }
+
 
 
 

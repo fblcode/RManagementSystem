@@ -127,6 +127,10 @@
      <a th:href="@{'/item/page/' + ${currentPage} + '?sortField=itemPrice&sortDir=' + ${reverseSortDir}}">
        Item Price</a>
      </th>
+     <th>
+     <a th:href="@{'/item/page/' + ${currentPage} + '?sortField=itemQuantity&sortDir=' + ${reverseSortDir}}">
+       Item Quantity</a>
+     </th>
      <th> Actions </th>
     </tr>
    </thead>
@@ -135,6 +139,7 @@
      <td th:text="${item.itemName}"></td>
      <td th:text="${item.itemDescription}"></td>
      <td th:text="${item.itemPrice}"></td>
+     <td th:text="${item.itemQuantity}"></td>
      <td> <a th:href="@{/showFormForUpdateItem/{id}(id=${item.itemID })}" class="btn btn-primary">Update</a>
          <a th:href="@{/deleteItem/{id}(id=${item.itemID })}" class="btn btn-danger">Delete</a>
      </td>
