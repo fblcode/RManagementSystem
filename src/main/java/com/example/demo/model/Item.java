@@ -4,7 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 
 @Entity
@@ -25,6 +30,9 @@ public class Item {
 	
 	@Column(name = "item_quantity")
 	private Integer itemQuantity;
+	
+	@ManyToMany(mappedBy = "items")
+    private List<Order> orders = new ArrayList<>();
 	
 	public Double getItemPrice() {
 		return itemPrice;
@@ -61,4 +69,11 @@ public class Item {
 		this.itemQuantity = itemQuantity;
 	}
 	
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }

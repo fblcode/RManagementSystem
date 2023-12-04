@@ -51,13 +51,15 @@ public class SecurityConfiguration {
 	   @Bean
 	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
-	        .authorizeHttpRequests((requests) -> requests
-	            .requestMatchers("/registration**", "/js/**", "/css/**", "/img/**").permitAll()
-	            .anyRequest().authenticated()
-	        )
+	    	.authorizeHttpRequests((requests) -> requests
+	    	    .requestMatchers("/registration**", "/js/**", "/css/**", "/img/**").permitAll()
+	    	    .requestMatchers(new AntPathRequestMatcher("/order/**")).hasAnyRole("USER", "ADMIN")
+	    	    .anyRequest().hasRole("ADMIN")
+	    	)
 	        .formLogin((form) -> form
 	            .loginPage("/login")
 	            .permitAll()
+	            .defaultSuccessUrl("/order", true)
 	        )
 	        .logout((logout) -> logout
 	        		.invalidateHttpSession(true)

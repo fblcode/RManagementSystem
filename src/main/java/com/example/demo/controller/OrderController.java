@@ -2,11 +2,13 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Item;
 import com.example.demo.model.Order;
+import com.example.demo.repository.OrderRepository;
 import com.example.demo.service.AuthenticationFacade;
 import com.example.demo.service.ItemService;
 import com.example.demo.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +29,9 @@ public class OrderController {
 
     @Autowired
     private AuthenticationFacade authenticationFacade;
+    
+    @Autowired
+    private OrderRepository orderRepository; // Autowire the OrderRepository
 
     @GetMapping("/order")
     public String viewOrderHomePage(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
@@ -140,5 +145,34 @@ public class OrderController {
 
         model.addAttribute("listOrders", listOrders);
         return "order";
+    }
+    
+    @GetMapping("/analytics")
+    public String viewAnalytics(Model model) {
+        // Fetch analytics data using the OrderService
+        Map<String, Object> analyticsData = new HashMap<>();
+        analyticsData.put("totalOrders", orderRepository.count());
+        analyticsData.put("totalRevenue", orderRepository.sumTotalPrice());
+        analyticsData.put("itemSales", orderService.getItemSalesData());
+
+        // Add the analytics data to the model
+        model.addAttribute("analyticsData", analyticsData);
+
+        return "analytics";
+    }
+    
+    @GetMapping("/analytics-data")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getAnalyticsData() {
+        // Fetch analytics data using the OrderService
+        Map<String, Object> analyticsData = new HashMap<>();
+        analyticsData.put("totalOrders", orderRepository.count());
+        analyticsData.put("totalRevenue", orderRepository.sumTotalPrice());
+        analyticsData.put("itemSales", orderService.getItemSalesData());
+
+        // Log the analyticsData
+        System.out.println("Analytics Data: " + analyticsData);
+
+        return ResponseEntity.ok(analyticsData);
     }
 }

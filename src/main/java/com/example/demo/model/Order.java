@@ -35,7 +35,7 @@ public class Order {
 	@Column(name = "employee_name")
     private String employeeName;
 
-    @ManyToMany
+	@ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "order_items",
             joinColumns = @JoinColumn(name = "order_id"),

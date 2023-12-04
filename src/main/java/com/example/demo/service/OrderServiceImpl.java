@@ -11,8 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -98,4 +100,29 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(Long id) {
         orderRepository.deleteById(id);
     }
+    
+    @Override
+    public List<Map<String, Object>> getItemSalesData() {
+        List<Map<String, Object>> result = orderRepository.getItemSalesData();
+        List<Map<String, Object>> itemSalesDataList = new ArrayList<>();
+
+        for (Map<String, Object> row : result) {
+            String itemName = (String) row.get("itemName");
+            Number quantitySold = (Number) row.get("quantitySold"); // Use Number to handle different number types
+
+            // Exclude rows where itemName is null or empty
+            if (itemName != null && !itemName.isEmpty()) {
+                Map<String, Object> itemSalesData = new HashMap<>();
+
+                // Populate the itemSalesData map
+                itemSalesData.put("itemName", itemName);
+                itemSalesData.put("quantitySold", quantitySold != null ? quantitySold.intValue() : 0);
+
+                itemSalesDataList.add(itemSalesData);
+            }
+        }
+
+        return itemSalesDataList;
+    }
+
 }

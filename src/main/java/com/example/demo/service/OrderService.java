@@ -4,6 +4,7 @@ import com.example.demo.model.Item;
 import com.example.demo.model.Order;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
 
@@ -24,4 +25,6 @@ public interface OrderService {
 	List<Item> getAllItems(String keyword);
 	
 	Double calculateTotalPrice(Order order);
+	
+	public List<Map<String, Object>> getItemSalesData();
 }
