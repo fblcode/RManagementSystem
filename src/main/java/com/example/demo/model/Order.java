@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-
+import java.util.Date;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +34,19 @@ public class Order {
 
 	@Column(name = "employee_name")
     private String employeeName;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "order_date")
+    private Date orderDate;
+	
+	public enum OrderStatus {
+	    IN_PROGRESS,
+	    COMPLETED
+	}
+	
+	@Column(name = "status")
+	@Enumerated(EnumType.STRING)
+	private OrderStatus status;
 
 	@ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -85,6 +98,22 @@ public class Order {
 
     public void removeItem(Item item) {
         items.remove(item);
+    }
+    
+    public Date getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public OrderStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OrderStatus status) {
+        this.status = status;
     }
     
 }

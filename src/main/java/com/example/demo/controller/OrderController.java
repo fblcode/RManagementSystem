@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -56,13 +57,16 @@ public class OrderController {
             quantityMap.put(String.valueOf(item.getItemID()), 1);
         }
         order.setQuantityMap(quantityMap);
+        
         model.addAttribute("order", order);
         model.addAttribute("items", items);
+        model.addAttribute("statusOptions", Order.OrderStatus.values()); // Add status options to the model
+        
         return "new_order";
     }
 
     @PostMapping("/order/saveOrder")
-    public String saveOrder(@ModelAttribute("order") Order order) {
+    public String saveOrder(@ModelAttribute("order") Order order, @RequestParam("status") String status) {
         // Set the employee name based on the authenticated user's email
         String employeeEmail = authenticationFacade.getAuthentication().getName();
         order.setEmployeeName(employeeEmail);
@@ -73,7 +77,10 @@ public class OrderController {
             String itemId = entry.getKey();
             int quantity = entry.getValue();
             Item item = itemService.getItemById(Integer.parseInt(itemId));
-
+            order.setOrderDate(new Date());
+            if (!status.isEmpty()) {
+                order.setStatus(Order.OrderStatus.valueOf(status));
+            }
             if (item != null && item.getItemQuantity() != null) {
                 totalPrice += item.getItemPrice() * quantity;
                 
@@ -111,6 +118,7 @@ public class OrderController {
         
         model.addAttribute("order", order);
         model.addAttribute("items", items);
+        model.addAttribute("statusOptions", Order.OrderStatus.values());
         return "update_order";
     }
 

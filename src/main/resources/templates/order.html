@@ -123,36 +123,44 @@
     </div>
     &nbsp; 
     <table border="1" class="table table-striped table-responsive-md">
-        <thead>
-        <tr>
-            <th>
-                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Order
-                    Id</a>
-            </th>
-            <th>
-                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=totalPrice&sortDir=' + ${reverseSortDir}}">Total
-                    Price</a>
-            </th>
-            <th>
-                <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=employeeName&sortDir=' + ${reverseSortDir}}">Added
-                    By</a>
-            </th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="order : ${listOrders}">
-            <td th:text="${order.id}"></td>
-            <td th:text="${order.totalPrice}"></td>
-            <td th:text="${order.employeeName}"></td>
-            <td>
-                <a th:href="@{/order/showFormForUpdateOrder/{id}(id=${order.id})}" class="btn btn-primary">Update</a>
-                <a th:href="@{/order/deleteOrder/{id}(id=${order.id})}" class="btn btn-danger ml-2"
-                   onclick="return confirm('Are you sure you want to delete this order?')">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <thead>
+    <tr>
+        <th>
+            <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=id&sortDir=' + ${reverseSortDir}}">Order
+                Id</a>
+        </th>
+        <th>
+            <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=totalPrice&sortDir=' + ${reverseSortDir}}">Total
+                Price</a>
+        </th>
+        <th>
+            <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=employeeName&sortDir=' + ${reverseSortDir}}">Added
+                By</a>
+        </th>
+        <th>
+            <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=orderDate&sortDir=' + ${reverseSortDir}}">Date</a>
+        </th>
+        <th>
+            <a th:href="@{'/order/page/' + ${currentPage} + '?sortField=status&sortDir=' + ${reverseSortDir}}">Status</a>
+        </th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="order : ${listOrders}">
+        <td th:text="${order.id}"></td>
+        <td th:text="${order.totalPrice}"></td>
+        <td th:text="${order.employeeName}"></td>
+        <td th:text="${#dates.format(order.orderDate, 'dd-MM-yyyy HH:mm')}"></td>
+        <td th:text="${order.status}"></td>
+        <td>
+            <a th:href="@{/order/showFormForUpdateOrder/{id}(id=${order.id})}" class="btn btn-primary">Update</a>
+            <a th:href="@{/order/deleteOrder/{id}(id=${order.id})}" class="btn btn-danger ml-2"
+               onclick="return confirm('Are you sure you want to delete this order?')">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
 
     <div class="container mt-3">
   <div class="row">
