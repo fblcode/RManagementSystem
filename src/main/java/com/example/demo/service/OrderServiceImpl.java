@@ -102,19 +102,23 @@ public class OrderServiceImpl implements OrderService {
     }
     
     @Override
-    public List<Map<String, Object>> getItemSalesData() {
-        List<Map<String, Object>> result = orderRepository.getItemSalesData();
+    public List<Map<String, Object>> getItemSalesDataThisMonth() {
+        // Get item sales data for the current month
+        return orderRepository.getItemSalesData();
+    }
+
+    @Override
+    public List<Map<String, Object>> getItemSalesDataPreviousMonth() {
+        // Get item sales data for the previous month
+        List<Map<String, Object>> result = orderRepository.getItemSalesDataPreviousMonth();
         List<Map<String, Object>> itemSalesDataList = new ArrayList<>();
 
         for (Map<String, Object> row : result) {
             String itemName = (String) row.get("itemName");
-            Number quantitySold = (Number) row.get("quantitySold"); // Use Number to handle different number types
+            Number quantitySold = (Number) row.get("quantitySold");
 
-            // Exclude rows where itemName is null or empty
             if (itemName != null && !itemName.isEmpty()) {
                 Map<String, Object> itemSalesData = new HashMap<>();
-
-                // Populate the itemSalesData map
                 itemSalesData.put("itemName", itemName);
                 itemSalesData.put("quantitySold", quantitySold != null ? quantitySold.intValue() : 0);
 
@@ -124,5 +128,4 @@ public class OrderServiceImpl implements OrderService {
 
         return itemSalesDataList;
     }
-
 }

@@ -26,5 +26,6 @@ public interface OrderService {
 	
 	Double calculateTotalPrice(Order order);
 	
-	public List<Map<String, Object>> getItemSalesData();
+	public List<Map<String, Object>> getItemSalesDataThisMonth();
+	public List<Map<String, Object>> getItemSalesDataPreviousMonth();
 }

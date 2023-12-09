@@ -80,18 +80,20 @@
 
         <form th:action="@{/order/saveOrder}" th:object="${order}" method="post">
     <input type="hidden" th:field="${order.id}" />
-    <!-- Display the items and quantities -->
-    <h4>Order Details</h4>
-    <table>
-        <tr>
-            <th>Item</th>
-            <th>Quantity</th>
-        </tr>
-        <tr th:each="item : ${items}">
-            <td th:text="${item.itemName}"></td>
-            <td><input type="number" th:field="*{quantityMap[__${item.itemID}__]}" min="0" /></td>
-        </tr>
-    </table>
+
+    <div style="height: 300px; overflow-y: auto;">
+	    <input type="text" id="itemSearch" placeholder="Search for items" oninput="filterItems()" />
+	    <table>
+	        <tr>
+	            <th>Item</th>
+	            <th>Quantity</th>
+	        </tr>
+	        <tr th:each="item : ${items}" class="item-row">
+	            <td th:text="${item.itemName}"></td>
+	            <td><input type="number" th:field="*{quantityMap[__${item.itemID}__]}" min="0" /></td>
+	        </tr>
+	    </table>
+	</div>
     <br/>
     <!-- Display other order details -->
     <div>
@@ -118,6 +120,28 @@
 
 <a th:href="@{/order}">Back to Order List</a>
 </div>
+
+<script>
+    function filterItems() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("itemSearch");
+        filter = input.value.toUpperCase();
+        table = document.querySelector("table");
+        tr = table.getElementsByClassName("item-row");
+        
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td")[0]; 
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+</script>
 </body>
 
 </html>
