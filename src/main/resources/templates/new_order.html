@@ -114,6 +114,9 @@
 			    </select>
 			</div>
             <br/>
+            <div th:if="${errorMessage}" class="alert alert-danger">
+			    <p th:text="${errorMessage}"></p>
+			</div>
             <input type="submit" value="Submit" />
         </form>
         <hr>

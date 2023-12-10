@@ -6,6 +6,10 @@ import com.example.demo.repository.OrderRepository;
 import com.example.demo.service.AuthenticationFacade;
 import com.example.demo.service.ItemService;
 import com.example.demo.service.OrderService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -45,7 +49,8 @@ public class OrderController {
     }
 
     @GetMapping("/order/showNewOrderForm")
-    public String showNewOrderForm(Model model) {
+    public String showNewOrderForm(Model model, HttpSession session) {
+    	session.setAttribute("source", "order");
         List<Item> items = itemService.getAllItems();
         Order order = new Order();
         Map<String, Integer> quantityMap = new HashMap<>();
@@ -62,7 +67,7 @@ public class OrderController {
     }
 
     @PostMapping("/order/saveOrder")
-    public String saveOrder(@ModelAttribute("order") Order order, @RequestParam("status") String status) {
+    public String saveOrder(@ModelAttribute("order") Order order, @RequestParam("status") String status, HttpSession session) {
         // Set the employee name based on the authenticated user's email
         String employeeEmail = authenticationFacade.getAuthentication().getName();
         order.setEmployeeName(employeeEmail);
@@ -107,7 +112,19 @@ public class OrderController {
 
         // Save the order to the database
         orderService.saveOrder(order);
-        return "redirect:/order";
+        String source = (String) session.getAttribute("source");
+
+        // Check if the request came from "/home"
+        if ("home".equals(source)) {
+            // Clear the session attribute to avoid using it for subsequent requests
+            session.removeAttribute("source");
+
+            // Redirect to "/home"
+            return "redirect:/home";
+        } else {
+            // Redirect to "/order"
+            return "redirect:/order";
+        }
     }
 
 
@@ -132,9 +149,14 @@ public class OrderController {
     }
 
     @GetMapping("/order/deleteOrder/{id}")
-    public String deleteOrder(@PathVariable(value = "id") Long id) {
+    public String deleteOrder(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         orderService.deleteOrder(id);
-        return "redirect:/order";
+        String referrer = request.getHeader("referer");
+        if (referrer != null && referrer.contains("/home")) {
+            return "redirect:/home";
+        } else {
+            return "redirect:/order";
+        }
     }
 
     @GetMapping("/order/page/{pageNo}")

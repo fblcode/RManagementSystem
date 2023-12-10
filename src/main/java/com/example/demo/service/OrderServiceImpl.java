@@ -102,6 +102,11 @@ public class OrderServiceImpl implements OrderService {
     }
     
     @Override
+    public List<Order> getInProgressOrders() {
+        return orderRepository.getInProgressOrders();
+    }
+    
+    @Override
     public List<Map<String, Object>> getItemSalesDataThisMonth() {
         // Get item sales data for the current month
         return orderRepository.getItemSalesData();

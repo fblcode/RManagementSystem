@@ -78,7 +78,7 @@
         <hr>
         <h2>Update Order</h2>
 
-        <form th:action="@{/order/saveOrder}" th:object="${order}" method="post">
+        <form th:action="@{/order/saveOrder}" th:object="${order}" method="post">			
     <input type="hidden" th:field="${order.id}" />
 
     <div style="height: 300px; overflow-y: auto;">

@@ -62,4 +62,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     @Query("SELECT COALESCE(SUM(o.totalPrice), 0) FROM Order o WHERE MONTH(o.orderDate) = :month AND YEAR(o.orderDate) = :year")
     Double sumTotalRevenueForMonth(@Param("year") Integer year, @Param("month") Integer month);
+    
+    @Query("SELECT o FROM Order o WHERE o.status = 'IN_PROGRESS'")
+    List<Order> getInProgressOrders();
 }

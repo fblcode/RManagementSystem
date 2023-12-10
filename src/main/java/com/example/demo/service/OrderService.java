@@ -28,4 +28,5 @@ public interface OrderService {
 	
 	public List<Map<String, Object>> getItemSalesDataThisMonth();
 	public List<Map<String, Object>> getItemSalesDataPreviousMonth();
+	List<Order> getInProgressOrders();
 }
