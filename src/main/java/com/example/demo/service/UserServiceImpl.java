@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,14 +42,26 @@ public class UserServiceImpl implements UserService{
 	    }
 
 	    try {
-	        User user = new User(registrationDto.getFirstName(), 
+	        // Only allow ROLE_USER or ROLE_ADMIN
+	        if (!isValidRole(registrationDto.getRoleName())) {
+	            throw new RuntimeException("Invalid role specified");
+	        }
+
+	        List<Role> roles = Arrays.asList(new Role(registrationDto.getRoleName()));
+
+	        User user = new User(registrationDto.getFirstName(),
 	                registrationDto.getLastName(), registrationDto.getEmail(),
-	                passwordEncoder.encode(registrationDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
-	        
+	                passwordEncoder.encode(registrationDto.getPassword()), roles);
+
 	        return userRepository.save(user);
 	    } catch (Exception e) {
 	        throw new RuntimeException("Error while saving the user", e);
 	    }
+	}
+
+	private boolean isValidRole(String roleName) {
+	    // Implement logic to check if the provided role is either ROLE_USER or ROLE_ADMIN
+	    return roleName.equals("ROLE_USER") || roleName.equals("ROLE_ADMIN");
 	}
 
 	@Override

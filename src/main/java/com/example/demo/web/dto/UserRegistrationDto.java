@@ -10,6 +10,7 @@ public class UserRegistrationDto {
 	private String email;
 	private String password;
 	private List<Role> roles;
+	private String roleName;
 	
 	public UserRegistrationDto(){
 		
@@ -23,12 +24,13 @@ public class UserRegistrationDto {
         this.roles = roles;
     }
 	
-	public UserRegistrationDto(String firstName, String lastName, String email, String password) {
+	public UserRegistrationDto(String firstName, String lastName, String email, String password, String roleName) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.roleName = roleName;
 	}
 	
 	public String getFirstName() {
@@ -54,5 +56,13 @@ public class UserRegistrationDto {
 	}
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 }
