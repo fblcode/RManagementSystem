@@ -52,7 +52,7 @@ public class SecurityConfiguration {
 	    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
 	    	.authorizeHttpRequests((requests) -> requests
-	    	    .requestMatchers("/registration**", "/js/**", "/css/**", "/img/**").permitAll()
+	    	    .requestMatchers("/js/**", "/css/**", "/img/**").permitAll()
 	    	    .requestMatchers(new AntPathRequestMatcher("/order/**")).hasAnyRole("USER", "ADMIN")
 	    	    .anyRequest().hasRole("ADMIN")
 	    	)
