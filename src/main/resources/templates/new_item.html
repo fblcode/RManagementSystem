@@ -32,33 +32,31 @@
     </div>
 
     <script>
-        // Validate item price field input
         function validateItemPriceInput(itemPriceField) {
             var numericValue = parseFloat(itemPriceField.value);
             if (!itemPriceField.value || !/^\d*\.?\d*$/.test(itemPriceField.value) || numericValue < 0) {
-                itemPriceField.value = '0'; // Set price to 0 if it's empty, contains non-numeric characters, or negative value
+                itemPriceField.value = '0'; 
             }
         }
         
         function validateItemQuantityInput(itemQuantityField) {
             var numericValue = parseFloat(itemQuantityField.value);
             if (!itemQuantityField.value || !/^\d*\.?\d*$/.test(itemQuantityField.value) || numericValue < 0) {
-                itemQuantityField.value = '0'; // Set price to 0 if it's empty, contains non-numeric characters, or negative value
+                itemQuantityField.value = '0'; 
             }
         }
 
-        // Validate the form before submission
         function validateForm() {
             var itemNameField = document.querySelector('input[name="itemName"]');
             var itemDescriptionField = document.querySelector('input[name="itemDescription"]');
             var itemPriceField = document.getElementById('itemPriceField');
 
             if (!itemNameField.value.trim() || !itemDescriptionField.value.trim() || parseFloat(itemPriceField.value) === 0) {
-                alert('Please enter all required fields.'); // Display error message if any required field is empty or itemPrice is 0
-                return false; // Prevent form submission
+                alert('Please enter all required fields.'); 
+                return false; 
             }
 
-            return true; // Allow form submission if validation passes
+            return true; 
         }
     </script>
 </body>

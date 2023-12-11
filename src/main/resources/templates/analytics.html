@@ -23,26 +23,24 @@
 	</div>
 	
 	<style>
-	/* The sidebar menu */
 	
 .red-link {
     color: rgb(183, 0, 0) !important;
 }	
 	
 .sidebar {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  height: 100%;
+  width: 0; 
+  position: fixed; 
+  z-index: 1; 
   top: 0;
   left: 0;
-  background-color: #111; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  background-color: #111; 
+  overflow-x: hidden; 
+  padding-top: 60px;
+  transition: 0.5s;
 }
 
-/* The sidebar links */
 .sidebar a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
@@ -52,12 +50,10 @@
   transition: 0.3s;
 }
 
-/* When you mouse over the navigation links, change their color */
 .sidebar a:hover {
   color: #f1f1f1;
 }
 
-/* Position and style the close button (top right corner) */
 .sidebar .closebtn {
   position: absolute;
   top: 0;
@@ -66,7 +62,6 @@
   margin-left: 50px;
 }
 
-/* The button used to open the sidebar */
 .openbtn {
   font-size: 16px;
   cursor: pointer;
@@ -80,13 +75,11 @@
   background-color: #444;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
-  transition: margin-left .5s; /* If you want a transition effect */
+  transition: margin-left .5s;
   padding: 20px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidebar {padding-top: 15px;}
   .sidebar a {font-size: 18px;}
@@ -166,18 +159,15 @@
         .then(analyticsData => {
             console.log("Analytics Data:", analyticsData);
 
-            // Check if itemSalesData is an array and not empty
             if (Array.isArray(analyticsData.itemSalesThisMonth) && analyticsData.itemSalesThisMonth.length > 0) {
                 var itemSalesDataThisMonth = analyticsData.itemSalesThisMonth;
                 var itemNames = itemSalesDataThisMonth.map(item => item.itemName);
                 var itemQuantitiesThisMonth = itemSalesDataThisMonth.map(item => item.quantitySold);
 
-                // Check if itemSalesPreviousMonth is an array and not empty
                 if (Array.isArray(analyticsData.itemSalesPreviousMonth) && analyticsData.itemSalesPreviousMonth.length > 0) {
                     var itemSalesDataPreviousMonth = analyticsData.itemSalesPreviousMonth;
                     var itemQuantitiesPreviousMonth = itemSalesDataPreviousMonth.map(item => item.quantitySold);
 
-                    // Render the chart only if there is data for both months
                     var ctx = document.getElementById('itemSalesChart').getContext('2d');
                     var itemSalesChart = new Chart(ctx, {
                         type: 'bar',
@@ -218,11 +208,9 @@
                         }
                     });
                 } else {
-                    // Handle the case where there is no item sales data for the previous month
                     console.log("No item sales data available for the previous month");
                 }
             } else {
-                // Handle the case where there is no item sales data for the current month
                 console.log("No item sales data available for the current month");
             }
         })
@@ -240,26 +228,20 @@
         .then(analyticsData => {
             console.log("Analytics Data:", analyticsData);
 
-            // Update the DOM with the fetched data
             document.getElementById('totalOrders').innerText = analyticsData.totalOrders;
             document.getElementById('totalRevenue').innerText = analyticsData.totalRevenue;
 
-            // ... Rest of your chart rendering logic (if needed)
         })
         .catch(error => {
             console.error("Error fetching analytics data:", error);
-            // Handle errors as needed
         });
 }
 	
 	document.addEventListener("DOMContentLoaded", function () {
-    // Get the current date
     var currentDate = new Date();
 
-    // Set the default value of the year input to the current year
     document.getElementById('year').value = currentDate.getFullYear();
 
-    // Set the default value of the month input to the current month (add 1 because months are zero-indexed)
     document.getElementById('month').value = currentDate.getMonth() + 1;
 });
 	
@@ -267,13 +249,11 @@
         window.location = "[[@{/}]]";
     }
 
-    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
     function openNav() {
         document.getElementById("mySidebar").style.width = "250px";
         document.getElementById("main").style.marginLeft = "250px";
     }
 
-    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
     function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";

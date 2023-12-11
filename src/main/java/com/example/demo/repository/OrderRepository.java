@@ -19,8 +19,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 	
-	@Query("SELECT o.totalPrice FROM Order o WHERE o.id = :orderId") // Fetch totalPrice directly
-	Double findTotalPriceById(@Param("orderId") Long orderId); // Use BigDecimal for totalPrice
+	@Query("SELECT o.totalPrice FROM Order o WHERE o.id = :orderId") 
+	Double findTotalPriceById(@Param("orderId") Long orderId); 
 
     List<Order> findByEmployeeNameContainingIgnoreCase(String keyword, Sort sort);
 

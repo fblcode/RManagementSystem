@@ -22,7 +22,6 @@ public class ItemController {
     @Autowired
     private ItemService itemService;
 
-    // display list of items
     @GetMapping("/item")
     public String viewItemHomePage(Model model, @RequestParam(value = "keyword", required = false) String keyword) {
         List<Item> items = itemService.getAllItems(keyword);
@@ -33,7 +32,6 @@ public class ItemController {
 
     @GetMapping("/showNewItemForm")
     public String showNewItemForm(Model model) {
-        // create model attribute to bind form data
         Item item = new Item();
         model.addAttribute("item", item);
         return "new_item";
@@ -41,7 +39,6 @@ public class ItemController {
 
     @PostMapping("/saveItem")
     public String saveItem(@ModelAttribute("item") Item item) {
-        // save employee to database
     	itemService.saveItem(item);
         return "redirect:/item";
     }
@@ -49,10 +46,8 @@ public class ItemController {
     @GetMapping("/showFormForUpdateItem/{itemID}")
     public String showFormForItemUpdate(@PathVariable(value = "itemID") Integer itemID, Model model) {
 
-        // get item from the service
         Item item = itemService.getItemById(itemID);
 
-        // set item as a model attribute to pre-populate the form
         model.addAttribute("item", item);
         return "update_item";
     }
@@ -60,7 +55,6 @@ public class ItemController {
     @GetMapping("/deleteItem/{itemID}")
     public String deleteItem(@PathVariable(value = "itemID") Integer itemID) {
 
-        // call delete employee method 
         this.itemService.deleteItemById(itemID);
         return "redirect:/item";
     }

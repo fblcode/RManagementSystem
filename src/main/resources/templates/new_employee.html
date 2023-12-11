@@ -31,12 +31,11 @@
         <a th:href="@{/}">Back to Employee List</a>
     </div>
 
-    <script>
-        // Validate salary field input
+    <script>       
         function validateSalaryInput(salaryField) {
             var numericValue = parseFloat(salaryField.value);
             if (!salaryField.value || !/^\d*\.?\d*$/.test(salaryField.value) || numericValue < 0) {
-                salaryField.value = '0'; // Set salary to 0 if it's empty, contains non-numeric characters, or negative value
+                salaryField.value = '0'; 
             }
         }
 
@@ -47,21 +46,19 @@
         var salaryField = document.getElementById('salaryField');
 
         if (!firstNameField.value.trim() || !lastNameField.value.trim() || !emailField.value.trim() || parseFloat(salaryField.value) === 0) {
-            alert('Please enter all required fields and ensure salary is greater than 0.'); // Display error message if any required field is empty or salary is 0
-            return false; // Prevent form submission
+            alert('Please enter all required fields and ensure salary is greater than 0.'); 
+            return false; 
         }
 
         if (!isValidEmail(emailField.value.trim())) {
-            alert('Please enter a valid email address.'); // Display error message if email format is invalid
-            return false; // Prevent form submission
+            alert('Please enter a valid email address.'); 
+            return false; 
         }
 
-        return true; // Allow form submission if validation passes
+        return true; 
     }
 
-    // Function to validate email format
     function isValidEmail(email) {
-	    // Using a regular expression for email format validation
 	    var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 	    return emailRegex.test(email);
 	}

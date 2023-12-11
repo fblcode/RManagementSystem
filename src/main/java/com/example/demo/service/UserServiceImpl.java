@@ -36,10 +36,8 @@ public class UserServiceImpl implements UserService{
 	@Transactional
 	@Override
 	public User save(UserRegistrationDto registrationDto) {
-	    // Check if the email is already registered
 	    if (isEmailAlreadyRegistered(registrationDto.getEmail())) {
 	        throw new RuntimeException("Email is already registered");
-	        // You might want to create a specific exception class for this case.
 	    }
 
 	    try {
@@ -49,7 +47,6 @@ public class UserServiceImpl implements UserService{
 	        
 	        return userRepository.save(user);
 	    } catch (Exception e) {
-	        // Handle the exception, log it, or rethrow a more specific exception
 	        throw new RuntimeException("Error while saving the user", e);
 	    }
 	}

@@ -19,8 +19,7 @@ import java.util.Map;
 @Service
 public class OrderServiceImpl implements OrderService {
 
-    private static final int PAGE_SIZE = 8; // Adjust the page size according to your needs
-
+    private static final int PAGE_SIZE = 8;
     @Autowired
     private OrderRepository orderRepository;
 
@@ -30,7 +29,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAllOrders(String keyword) {
         List<Order> orders;
-        // Retrieve orders from the repository
         if (keyword != null) {
             Sort sort = Sort.by(Sort.Direction.ASC, "employeeName");
             orders = orderRepository.findByEmployeeNameContainingIgnoreCase(keyword, sort);
@@ -38,7 +36,6 @@ public class OrderServiceImpl implements OrderService {
             orders = orderRepository.findAll();
         }
 
-        // Calculate total price for each order
         for (Order order : orders) {
         	Double  totalPrice = calculateTotalPrice(order);
             order.setTotalPrice(totalPrice);
@@ -52,8 +49,7 @@ public class OrderServiceImpl implements OrderService {
         Double totalPrice = orderRepository.findTotalPriceById(order.getId());
 
         if (totalPrice == null) {
-            // Handle the case where the total price is null
-            totalPrice = 0.0; // Set a default value or handle it based on your requirements
+            totalPrice = 0.0; 
         }
 
         return totalPrice;
@@ -108,13 +104,11 @@ public class OrderServiceImpl implements OrderService {
     
     @Override
     public List<Map<String, Object>> getItemSalesDataThisMonth() {
-        // Get item sales data for the current month
         return orderRepository.getItemSalesData();
     }
 
     @Override
     public List<Map<String, Object>> getItemSalesDataPreviousMonth() {
-        // Get item sales data for the previous month
         List<Map<String, Object>> result = orderRepository.getItemSalesDataPreviousMonth();
         List<Map<String, Object>> itemSalesDataList = new ArrayList<>();
 

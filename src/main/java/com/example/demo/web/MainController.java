@@ -24,7 +24,7 @@ public class MainController {
 
     @PostMapping("/logout")
     public String logout(HttpServletRequest request) throws ServletException {
-        request.logout(); // Invalidate the user's session
-        return "redirect:/login"; // Redirect to the login page
+        request.logout();
+        return "redirect:/login";
     }
 }

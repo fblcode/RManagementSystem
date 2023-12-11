@@ -61,18 +61,17 @@ public class OrderController {
         
         model.addAttribute("order", order);
         model.addAttribute("items", items);
-        model.addAttribute("statusOptions", Order.OrderStatus.values()); // Add status options to the model
+        model.addAttribute("statusOptions", Order.OrderStatus.values());
         
         return "new_order";
     }
 
     @PostMapping("/order/saveOrder")
     public String saveOrder(@ModelAttribute("order") Order order, @RequestParam("status") String status, HttpSession session) {
-        // Set the employee name based on the authenticated user's email
+
         String employeeEmail = authenticationFacade.getAuthentication().getName();
         order.setEmployeeName(employeeEmail);
 
-        // Calculate the total price based on the selected items and quantities
         Double totalPrice = 0.0;
         for (Map.Entry<String, Integer> entry : order.getQuantityMap().entrySet()) {
             String itemId = entry.getKey();
@@ -85,44 +84,33 @@ public class OrderController {
             if (item != null && item.getItemQuantity() != null) {
                 Double itemPrice = item.getItemPrice();
 
-                // Check if the item quantity is sufficient
                 int updatedQuantity = item.getItemQuantity() - quantity;
                 if (updatedQuantity >= 0) {
-                    // Update the item's quantity in the database
                     item.setItemQuantity(updatedQuantity);
                     itemService.saveItem(item);
 
-                    // Check if the item is already associated with the order
                     if (!order.getItems().contains(item)) {
                         order.addItem(item);
                     }
 
-                    // Update the total price
                     totalPrice += itemPrice * quantity;
                 } else {
-                    // Handle insufficient item quantity
-                    // You may add appropriate error handling or logging here
+
                 }
             } else {
-                // Handle the case where item or quantity is null
-                // You may add appropriate error handling or logging here
+
             }
         }
         order.setTotalPrice(totalPrice);
 
-        // Save the order to the database
         orderService.saveOrder(order);
         String source = (String) session.getAttribute("source");
 
-        // Check if the request came from "/home"
         if ("home".equals(source)) {
-            // Clear the session attribute to avoid using it for subsequent requests
             session.removeAttribute("source");
 
-            // Redirect to "/home"
             return "redirect:/home";
         } else {
-            // Redirect to "/order"
             return "redirect:/order";
         }
     }
@@ -133,7 +121,6 @@ public class OrderController {
         Order order = orderService.getOrderById(id);
         List<Item> items = itemService.getAllItems();
         
-        // Populate the quantity map with the existing quantities from the order
         Map<String, Integer> quantityMap = new HashMap<>();
         for (Item item : items) {
             String itemId = String.valueOf(item.getItemID());
@@ -186,10 +173,9 @@ public class OrderController {
         analyticsData.put("totalOrders", orderRepository.count());
         analyticsData.put("totalRevenue", orderRepository.sumTotalPrice());
         analyticsData.put("itemSales", orderService.getItemSalesDataThisMonth());
-        analyticsData.put("itemSalesThisMonth", orderService.getItemSalesDataThisMonth()); // Add this line
-        analyticsData.put("itemSalesPreviousMonth", orderService.getItemSalesDataPreviousMonth()); // Add this line
+        analyticsData.put("itemSalesThisMonth", orderService.getItemSalesDataThisMonth()); 
+        analyticsData.put("itemSalesPreviousMonth", orderService.getItemSalesDataPreviousMonth()); 
 
-        // Add the analytics data to the model
         model.addAttribute("analyticsData", analyticsData);
 
         return "analytics";
@@ -201,19 +187,16 @@ public class OrderController {
             @RequestParam(name = "year", required = false) Integer year,
             @RequestParam(name = "month", required = false) Integer month) {
         try {
-            // Fetch analytics data using the OrderService with the provided year and month
             Map<String, Object> analyticsData = new HashMap<>();
             analyticsData.put("totalOrders", orderRepository.countTotalOrdersForMonth(year, month));
             analyticsData.put("totalRevenue", orderRepository.sumTotalRevenueForMonth(year, month));
             analyticsData.put("itemSalesThisMonth", orderService.getItemSalesDataThisMonth());
             analyticsData.put("itemSalesPreviousMonth", orderService.getItemSalesDataPreviousMonth());
 
-            // Log the analyticsData
             System.out.println("Analytics Data: " + analyticsData);
 
             return ResponseEntity.ok(analyticsData);
         } catch (Exception e) {
-            // Log any exceptions
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

@@ -56,8 +56,6 @@ public class Order {
     )
     private List<Item> items = new ArrayList<>();
 
-    // Constructors, getters, and setters
-
     public Map<String, Integer> getQuantityMap() {
   		return quantityMap;
   	}

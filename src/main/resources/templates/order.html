@@ -15,12 +15,10 @@
 <div id="mySidebar" class="sidebar">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     
-    <!-- Render only for USER -->
     <div sec:authorize="hasRole('USER')">
         <a href="/logout" class="red-link">Logout</a>
     </div>
 
-    <!-- Render only for ADMIN -->
     <div sec:authorize="hasRole('ADMIN')">
 		<a href="/home">Home</a>
         <a href="/analytics">Analytics</a>
@@ -32,26 +30,24 @@
 </div>
 
 <style>
-	/* The sidebar menu */
 	
 .red-link {
     color: rgb(183, 0, 0) !important;
 }	
 	
 .sidebar {
-  height: 100%; /* 100% Full-height */
-  width: 0; /* 0 width - change this with JavaScript */
-  position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  height: 100%; 
+  width: 0; 
+  position: fixed; 
+  z-index: 1; 
   top: 0;
   left: 0;
-  background-color: #111; /* Black*/
-  overflow-x: hidden; /* Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidebar */
+  background-color: #111; 
+  overflow-x: hidden; 
+  padding-top: 60px;
+  transition: 0.5s; 
 }
 
-/* The sidebar links */
 .sidebar a {
   padding: 8px 8px 8px 32px;
   text-decoration: none;
@@ -61,12 +57,10 @@
   transition: 0.3s;
 }
 
-/* When you mouse over the navigation links, change their color */
 .sidebar a:hover {
   color: #f1f1f1;
 }
 
-/* Position and style the close button (top right corner) */
 .sidebar .closebtn {
   position: absolute;
   top: 0;
@@ -75,7 +69,6 @@
   margin-left: 50px;
 }
 
-/* The button used to open the sidebar */
 .openbtn {
   font-size: 16px;
   cursor: pointer;
@@ -89,13 +82,11 @@
   background-color: #444;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 #main {
-  transition: margin-left .5s; /* If you want a transition effect */
+  transition: margin-left .5s; 
   padding: 20px;
 }
 
-/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
 @media screen and (max-height: 450px) {
   .sidebar {padding-top: 15px;}
   .sidebar a {font-size: 18px;}
@@ -197,16 +188,16 @@
             var keywordValue = keywordInput.val();
 
             if (!isValidEmail(keywordValue)) {
-                event.preventDefault(); // Prevent form submission
-                keywordInput.val(''); // Clear the input field
-                alert('Please enter a valid email address for searching.'); // Show an error message
+                event.preventDefault(); 
+                keywordInput.val(''); 
+                alert('Please enter a valid email address for searching.'); 
             } else {
-                // You can perform additional actions here if the email is valid
+               
             }
         });
 
         function isValidEmail(email) {
-            // Simple email validation using regular expression
+            
             var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
         }
@@ -223,7 +214,6 @@
         document.getElementById("main").style.marginLeft = "250px";
     }
 
-    /* Set the width of the sidebar to 0 and the left margin of the page content to 0 */
     function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
         document.getElementById("main").style.marginLeft = "0";

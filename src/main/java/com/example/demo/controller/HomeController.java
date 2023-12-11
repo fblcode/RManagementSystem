@@ -42,19 +42,15 @@ public class HomeController {
 
     @GetMapping("/home")
     public String viewInProgressOrders(Model model) {
-        // Retrieve orders with "In Progress" status
         List<Order> inProgressOrders = orderService.getInProgressOrders();
 
         model.addAttribute("listOrdersInProgress", inProgressOrders);
-
-        // You can add other attributes as needed
 
         return "home";
     }
     
     @GetMapping("/home/showNewOrderForm")
     public String showNewOrderFormFromHome(Model model, HttpSession session) {
-        // Store information in the session about the source of the request
         session.setAttribute("source", "home");
         
         List<Item> items = itemService.getAllItems();
@@ -67,21 +63,18 @@ public class HomeController {
         
         model.addAttribute("order", order);
         model.addAttribute("items", items);
-        model.addAttribute("statusOptions", Order.OrderStatus.values()); // Add status options to the model
+        model.addAttribute("statusOptions", Order.OrderStatus.values()); 
         
         return "new_order";
     }
     
     @GetMapping("/home/showFormForUpdateOrder/{id}")
     public String showFormForUpdateOrderFromHome(@PathVariable(value = "id") Long id, Model model, HttpSession session) {
-        // Store information in the session about the source of the request
         session.setAttribute("source", "home");
 
-        // Rest of your existing code to retrieve and populate order details
         Order order = orderService.getOrderById(id);
         List<Item> items = itemService.getAllItems();
-        
-        // Populate the quantity map with the existing quantities from the order
+
         Map<String, Integer> quantityMap = new HashMap<>();
         for (Item item : items) {
             String itemId = String.valueOf(item.getItemID());

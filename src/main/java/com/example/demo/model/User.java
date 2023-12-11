@@ -55,7 +55,6 @@ public class User implements UserDetails {
     }
     
     public User() {
-        // TODO Auto-generated constructor stub
     }
     
     public Long getId() {
@@ -107,11 +106,8 @@ public class User implements UserDetails {
     }
     
     public List<GrantedAuthority> getAuthorities() {
-        // Implement this method to return the list of user authorities
-        // For example, you can return a list of roles or permissions
         List<GrantedAuthority> authorities = new ArrayList<>();
-        List<Role> roles = getRoles(); // Use the getRoles() method to retrieve the roles
-        
+        List<Role> roles = getRoles();
         for (Role role : roles) {
             authorities.add(new CustomGrantedAuthority(role.getName()));
         }
@@ -126,22 +122,18 @@ public class User implements UserDetails {
     }
     
     public boolean isAccountNonExpired() {
-        // Implement this method to return whether the user account is non-expired
         return true;
     }
     
     public boolean isAccountNonLocked() {
-        // Implement this method to return whether the user account is non-locked
         return true;
     }
     
     public boolean isCredentialsNonExpired() {
-        // Implement this method to return whether the user credentials are non-expired
         return true;
     }
     
     public boolean isEnabled() {
-        // Implement this method to return whether the user is enabled
         return true;
     }
 }
